@@ -1,4 +1,4 @@
-# 📘 pkModEstSim JavaScript Library Documentation
+# 📘 pkModEstSim JavaScript Model Estimation and Simulation Library 
 
 `pkModEstSim` is a comprehensive JavaScript library for simulating and fitting pharmacokinetic (PK) models using differential equations. It enables researchers, students, and analysts to perform modeling directly in the browser without requiring backend computation or installation of complex software.
 
