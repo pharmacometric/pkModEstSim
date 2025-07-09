@@ -150,11 +150,18 @@ pkModEstSim.simulateSubjects(20, [0,1,2,4,6,8], {
 #### simulation example
 
 ```js
+const modelSpec = {
+        compartments: 1,
+        route: pkModEstSim.Routes.IV_BOLUS,
+        elimination: pkModEstSim.Elimination.LINEAR
+      };
 
 const simResult = pkModEstSim.simulateSubjects({
         n: 100,
         modelSpec,
-        parameters: result.estimates,
+        parameters: {
+  CL: 1, V1: 10, KA: 1
+},
         variability: {
           CL: 0.25,
           V1: 0.25
