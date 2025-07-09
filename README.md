@@ -147,6 +147,47 @@ pkModEstSim.simulateSubjects(20, [0,1,2,4,6,8], {
 }, 123);
 ```
 
+#### simulation example
+
+```js
+
+const simResult = pkModEstSim.simulateSubjects({
+        n: 100,
+        modelSpec,
+        parameters: result.estimates,
+        variability: {
+          CL: 0.25,
+          V1: 0.25
+        },
+        dosing: [{ time: 0, amt: 100 }],
+        times
+      });
+	  
+	  
+
+      const simByTime = {};
+      times.forEach(t => simByTime[t] = []);
+      simResult.forEach(row => {
+        simByTime[row.TIME].push(row.CONC);
+      });
+
+      const medianLine = [];
+      const lower90Line = [];
+      const upper90Line = [];
+
+      for (let t of times) {
+        const values = simByTime[t].sort((a, b) => a - b);
+        const mid = Math.floor(values.length / 2);
+        const median = values.length % 2 === 0
+          ? (values[mid - 1] + values[mid]) / 2
+          : values[mid];
+        medianLine.push({ x: t, y: median });
+        lower90Line.push({ x: t, y: values[Math.floor(0.05 * values.length)] });
+        upper90Line.push({ x: t, y: values[Math.floor(0.95 * values.length)] });
+      }
+
+```
+
 ---
 
 ## 📚 Future Enhancements
