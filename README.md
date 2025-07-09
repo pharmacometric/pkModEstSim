@@ -66,13 +66,35 @@ write.csv(pkdata, "nonmem_example_data.csv", row.names = FALSE)
 ## 💡 Using Dataset in JavaScript
 
 ```js
-const results = pkModEstSim.fitModel(exampleDataset, {
-  compartments: 1,
-  route: pkModEstSim.Routes.ORAL,
-  elimination: pkModEstSim.Elimination.LINEAR
-}, {
-  CL: 1, V1: 10, KA: 1
-});
+// Example NONMEM-style dataset (10 subjects, 7 time points)
+      const dataset = [];
+      const subjects = 10;
+      const times = [0, 1, 2, 4, 6, 8, 12];
+      for (let id = 1; id <= subjects; id++) {
+        for (let t of times) {
+          dataset.push({
+            ID: id,
+            TIME: t,
+            DV: +(50 * Math.exp(-0.2 * t) + (Math.random() - 0.5)).toFixed(2),
+            AMT: t === 0 ? 100 : 0,
+            EVID: t === 0 ? 1 : 0
+          });
+        }
+      }
+
+      // Define model spec for 1-compartment with IV bolus and linear elimination
+      const modelSpec = {
+        compartments: 1,
+        route: pkModEstSim.Routes.IV_BOLUS,
+        elimination: pkModEstSim.Elimination.LINEAR
+      };
+
+      const initParams = {
+        CL: 5,
+        V1: 20
+      };
+
+      const result = pkModEstSim.fitModel(dataset, modelSpec, initParams);
 ```
 
 ---
